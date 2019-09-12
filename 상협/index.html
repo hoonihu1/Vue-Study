@@ -1,20 +1,57 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <script src="https://unpkg.com/vue"></script>
-    <p class="name"></p>
 </head>
 <body>
-        <div id="app">
-        {{ message }}
+
+
+    <div v-if="seen" id="app">
+        <input v-model="message" v-input="max" placeholder="입력">
+        <p>입력값 : {{ message }}</p>
+        <button v-on:click="check">체크</button>
+        <p>결과 : </p>
+        <p v-for="list in result">{{ list }}</p>
     </div>
-    </body>
-    <script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'hello Vue!'
+            message: '',
+            number : '1234',
+            result : [],
+            seen : true
+        },
+        methods: {
+            max : function(e) {
+                
+            },
+            check : function () {
+                let split_number = this.number.split('');
+                let split_message = this.message.split('');
+                let ball_count = 0;
+                let strike_count = 0;
+                if (this.message === this.number) {
+                    this.result = [];
+                    this.result.push('정답');
+                } else {
+                    for (let i=0; i<split_message.length;i++) {
+                        for (let j=0;j<split_number.length;j++) {
+                            if(i==j && split_number[j] == split_message[i]) {
+                                strike_count++;
+                            }
+                            if(i!=j && split_number[j] == split_message[i]) {
+                                ball_count++;
+                            }
+                        }
+                    }
+                    this.result.push('ball : ' + ball_count + ' strike : ' + strike_count);
+                }
+            }
         }
     });
 </script>
+</body>
 </html>
