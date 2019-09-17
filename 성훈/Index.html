@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>V Sample</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+
+<div v-if="seen" id="app">
+    <input v-model="inyour" maxlength="4" v-on:keyup.enter="submit">
+    {{result}}
+    <p v-for="list in Arrayprint">{{list}}</p>
+
+</div>
+
+
+<script>
+    let result = [];
+    let check;
+    let i = 0
+    while (i < 4) {
+        if (i == 0) {
+            result[i] = Math.floor(Math.random() * 10)
+            i++
+            continue;
+        }
+        check = Math.floor(Math.random() * 10)
+        if (i ==1&&result[i - 1] != check) {
+            result[i] = check
+            i++
+        }
+        if (i ==2&&result[i - 1] != check && result[i - 2] != check){
+            result[i] = check
+            i++
+        }
+        if (i ==3&&result[i - 1] != check && result[i - 2] != check &&result[i - 3] != check) {
+            result[i] = check
+            i++
+        }
+    }
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: '',
+            seen: true,
+            result : '',
+            inyour : '',
+            Arrayprint :[]
+        },
+        methods: {
+            submit : function () {
+                let S_count = 0
+                let B_count =0
+                for(let j=0; j<4;j++)
+                {
+                    for (let i=0; i < 4; i++)
+                    {
+                        if (this.inyour[i] == result[j] && i==j)
+                            S_count++
+                        if (this.inyour[i] == result[j] && i!=j)
+                            B_count++
+                    }
+                }
+                this.result = result
+                this.Arrayprint.push(S_count+'S'+B_count+"B 입니다.")
+
+            }
+        },
+    });
+
+
+</script>
+
+</body>
+
+</html>
